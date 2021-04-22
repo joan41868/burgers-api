@@ -20,7 +20,7 @@ func propagateErrorToClient(err error, writer http.ResponseWriter) {
 func (app *Application) InitRoutes() {
 
 	app.router.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
-		writer.Write([]byte("Hello"))
+		writer.Write([]byte("Hello limes!"))
 	})
 
 	app.router.HandleFunc("/burger", func(writer http.ResponseWriter, request *http.Request) {
