@@ -21,7 +21,7 @@ func TestGetByName(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	assert.Equal(t, found.Name, burgerName, "Wtf, they should be the same")
+	assert.Equal(t, len(found), 1, "Wtf, they should be the same")
 }
 
 func TestGetById(t *testing.T) {

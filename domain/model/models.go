@@ -16,3 +16,6 @@ type Burger struct {
 	UpdatedAt time.Time `json:"-"`
 	DeletedAt gorm.DeletedAt `gorm:"default:null" json:"-"`
 }
+
+
+

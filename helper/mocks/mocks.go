@@ -4,6 +4,7 @@ import (
 	"burger-api/domain/model"
 	"errors"
 	"log"
+	"strings"
 )
 
 type BurgerRepository struct {
@@ -31,17 +32,17 @@ func (repo *BurgerRepository) CreateOne(mdl *model.Burger) (*model.Burger, error
 	return mdl, nil
 }
 
-func (repo *BurgerRepository) GetByName(name string) (*model.Burger, error) {
+func (repo *BurgerRepository) GetByName(name string) ([]*model.Burger, error) {
 	if repo.ShouldError {
 		return nil, errors.New("i should error")
 	}
-
-	for _, u := range repo.Burgers {
-		if u.Name == name {
-			return u, nil
+	var slc []*model.Burger
+	for _, v := range repo.Burgers {
+		if strings.Contains(v.Name, name){
+			slc = append(slc, v)
 		}
 	}
-	return nil, errors.New("burger not found")
+	return slc, nil
 }
 
 func (repo *BurgerRepository) GetPaginated(pageNum, perPage uint) ([]*model.Burger, error){
@@ -68,4 +69,39 @@ func (repo *BurgerRepository) GetPaginated(pageNum, perPage uint) ([]*model.Burg
 	}
 	log.Println(mp)
 	return mp[pageNum], nil
+}
+
+func (repo *BurgerRepository) Count() int{
+	return len(repo.Burgers)
+}
+
+func (repo *BurgerRepository) GetPaginatedByName(name string, pageNum, perPage uint) ([]*model.Burger, error){
+	type paginator struct {
+		Limit uint // PerPage
+		Offset uint
+		PageNum uint
+	}
+	pgn := paginator{
+		Limit:   perPage,
+		Offset:  (pageNum-1)*perPage, // Offset 1 will start from the second row, this is why i did this hack
+		PageNum: pageNum-1,
+	}
+	burgersLen := uint(len(repo.Burgers))
+	mp := make(map[uint] []*model.Burger)
+	var cnt uint = 1 // actual page number
+	for {
+		burgersLen = burgersLen - perPage
+		mp[cnt] = repo.Burgers[pgn.Offset:pgn.Limit]
+		if burgersLen <= 0{
+			break
+		}
+		cnt = cnt + 1
+	}
+	var slc []*model.Burger
+	for _, v := range mp[pageNum]{
+		if strings.Contains(v.Name, name){
+			slc = append(slc, v)
+		}
+	}
+	return slc, nil
 }
