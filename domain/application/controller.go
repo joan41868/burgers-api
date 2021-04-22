@@ -80,6 +80,5 @@ func (app *Application) InitRoutes() {
 			return
 		}
 		json.NewEncoder(writer).Encode(burgers)
-		return
 	}).Methods("GET")
 }

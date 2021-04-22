@@ -24,6 +24,11 @@ func TestPaginatedList_Offset(t *testing.T) {
 	assert.Equal(t, 0, pgn.Offset())
 }
 
+func TestPaginatedList_Offset2(t *testing.T) {
+	pgn := NewPaginatedList(5, 5, 5*5)
+	assert.Equal(t, 20, pgn.Offset())
+}
+
 func TestGetPaginatedListFromRequest(t *testing.T) {
 	// Not sure how to mock request
 }
