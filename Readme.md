@@ -2,7 +2,7 @@
 
 ## Task - <a href='https://www.notion.so/Backend-Dev-Task-3eaa4227e5c144c582743d40b372cbf3'>link</a>
 
-## A sample app is deployed <a href=''>here</a>
+## A sample app is deployed <a href='https://limeburger-api.herokuapp.com/'>here</a>
 
 ## Tech stack:
 - Go (Golang)
