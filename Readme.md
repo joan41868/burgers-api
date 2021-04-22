@@ -30,7 +30,7 @@ export GOOS=linux
 export GOARCH=amd64
 
 # run tests
-go test ./domain/repository
+go test ./...
 
 # build and start
 go mod download

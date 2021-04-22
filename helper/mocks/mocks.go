@@ -48,17 +48,16 @@ func (repo *BurgerRepository) GetByName(name string) ([]*model.Burger, error) {
 
 func (repo *BurgerRepository) GetPaginated(pageNum, perPage uint) ([]*model.Burger, error) {
 
-	pgn := pagination.Paginator{
-		Limit:   perPage,
-		Offset:  (pageNum - 1) * perPage, // Offset 1 will start from the second row, this is why i did this hack
-		PageNum: pageNum - 1,
+	pgn := pagination.PaginatedList{
+		PerPage: int(perPage),
+		Page: int(pageNum),
 	}
 	burgersLen := uint(len(repo.Burgers))
 	mp := make(map[uint][]*model.Burger)
 	var cnt uint = 1 // actual page number
 	for {
 		burgersLen = burgersLen - perPage
-		mp[cnt] = repo.Burgers[pgn.Offset:pgn.Limit]
+		mp[cnt] = repo.Burgers[pgn.Offset():pgn.Limit()]
 		if burgersLen <= 0 {
 			break
 		}
@@ -74,17 +73,16 @@ func (repo *BurgerRepository) Count() int {
 
 func (repo *BurgerRepository) GetPaginatedByName(name string, pageNum, perPage uint) ([]*model.Burger, error) {
 
-	pgn := pagination.Paginator{
-		Limit:   perPage,
-		Offset:  (pageNum - 1) * perPage, // Offset 1 will start from the second row, this is why i did this hack
-		PageNum: pageNum - 1,
+	pgn := pagination.PaginatedList{
+		PerPage: int(perPage),
+		Page: int(pageNum),
 	}
 	burgersLen := uint(len(repo.Burgers))
 	mp := make(map[uint][]*model.Burger)
 	var cnt uint = 1 // actual page number
 	for {
 		burgersLen = burgersLen - perPage
-		mp[cnt] = repo.Burgers[pgn.Offset:pgn.Limit]
+		mp[cnt] = repo.Burgers[pgn.Offset():pgn.Limit()]
 		if burgersLen <= 0 {
 			break
 		}

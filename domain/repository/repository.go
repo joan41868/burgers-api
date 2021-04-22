@@ -62,13 +62,12 @@ func (repo *BurgerRepositoryImpl) GetByID(id int) (*model.Burger, error) {
 
 func (repo *BurgerRepositoryImpl) GetPaginated(pageNum, perPage uint) ([]*model.Burger, error) {
 
-	pgn := pagination.Paginator{
-		Limit:   perPage,
-		Offset:  (pageNum - 1) * perPage, // Offset 1 will start from the second row, this is why i did this hack
-		PageNum: pageNum - 1,
+	pgn := pagination.PaginatedList{
+		PerPage: int(perPage),
+		Page: int(pageNum),
 	}
 	var burgers []*model.Burger
-	tx := repo.Db.Limit(int(pgn.Limit)).Offset(int(pgn.Offset)).Find(&burgers)
+	tx := repo.Db.Limit(pgn.Limit()).Offset(pgn.Offset()).Find(&burgers)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
@@ -83,13 +82,12 @@ func (repo *BurgerRepositoryImpl) Count() int {
 }
 
 func (repo *BurgerRepositoryImpl) GetPaginatedByName(name string, pageNum, perPage uint) ([]*model.Burger, error) {
-	pgn := pagination.Paginator{
-		Limit:   perPage,
-		Offset:  (pageNum - 1) * perPage, // Offset 1 will start from the second row, this is why i did this hack
-		PageNum: pageNum - 1,
+	pgn := pagination.PaginatedList{
+		PerPage: int(perPage),
+		Page: int(pageNum),
 	}
 	var burgers []*model.Burger
-	tx := repo.Db.Where("name like ?", "%"+name+"%").Limit(int(pgn.Limit)).Offset(int(pgn.Offset)).Find(&burgers)
+	tx := repo.Db.Where("name like ?", "%"+name + "%").Limit(pgn.Limit()).Offset(pgn.Offset()).Find(&burgers)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}

@@ -8,17 +8,11 @@ type PaginatedList struct {
 	Items      interface{} `json:"items"`
 }
 
-//Paginator -  helper struct, which holds part of the PaginatedList data
-type Paginator struct {
-	Limit   uint // PerPage
-	Offset  uint
-	PageNum uint
-}
 
 // NewPaginatedList creates a new PaginatedList
 func NewPaginatedList(page, perPage, total int) *PaginatedList {
 	if perPage < 1 {
-		perPage = 100
+		perPage = 15
 	}
 	pageCount := -1
 	if total >= 0 {

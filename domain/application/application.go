@@ -46,7 +46,7 @@ func (app *Application) Start(port string) {
 	}
 	// routes
 	app.InitRoutes()
-	app.router.PathPrefix("/").Handler(http.FileServer(http.Dir("domain/static/")))
+	app.router.PathPrefix("/").Handler(http.FileServer(http.Dir("domain/static/"))) // serve files under the static dir - images & docs
 	// middlewares
 	app.router.Use(ratelimit.Handle)
 	app.router.Use(middleware.ContentTypeMiddleware) // attaches a Content-type : application/json header
