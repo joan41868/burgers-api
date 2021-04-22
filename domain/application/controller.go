@@ -59,7 +59,7 @@ func (app *Application) InitRoutes() {
 
 	}).Methods("GET")
 
-	app.router.HandleFunc("/burgers/random", func(writer http.ResponseWriter, request *http.Request){
+	app.router.HandleFunc("/burgers/random/", func(writer http.ResponseWriter, request *http.Request){
 		min := 1
 		max := app.repository.Count()
 		randomN := rand.Intn(max - min) + min
