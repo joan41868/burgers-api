@@ -1,6 +1,8 @@
 module burger-api
 
-go 1.13
+go 1.16
+
+// +heroku goVersion 1.16
 
 require (
 	github.com/gorilla/mux v1.8.0
