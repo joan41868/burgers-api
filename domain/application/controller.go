@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"log"
+	"math/rand"
 	"net/http"
 	"strconv"
 )
@@ -57,6 +58,20 @@ func (app *Application) InitRoutes() {
 		}
 
 	}).Methods("GET")
+
+	app.router.HandleFunc("/burgers/random", func(writer http.ResponseWriter, request *http.Request){
+		min := 1
+		max := app.repository.Count()
+		randomN := rand.Intn(max - min) + min
+		burger, err := app.repository.GetByID(randomN)
+		if err != nil {
+			log.Println(err)
+			propagateErrorToClient(err, writer)
+		}else{
+			json.NewEncoder(writer).Encode(burger)
+		}
+
+	})
 
 	// query stuff
 	app.router.HandleFunc("/burgers", func(writer http.ResponseWriter, request *http.Request) {
