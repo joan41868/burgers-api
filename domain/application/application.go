@@ -31,10 +31,7 @@ func NewApplication(connStr string) *Application {
 
 func (app *Application) Start(port string) {
 	store, err := memorystore.New(&memorystore.Config{
-		// Number of tokens allowed per interval.
 		Tokens: 15,
-
-		// Interval until tokens reset.
 		Interval: time.Minute,
 	})
 	if err != nil {
