@@ -13,6 +13,123 @@
     <title>Documentation</title>
 </head>
 <body>
-    <p>Hello</p>
+<div class="container">
+    <h1>LimeBurger API</h1>
+    <div class="container">
+        <h2>Common info</h2>
+        <h4>Rate Limiting - IP based, 15 requests/min</h4>
+        <h4>CORS compliant</h4>
+        <h4>Root endpoint: <code>https://limeburger-api.herokuapp.com/</code> (<a href="https://limeburger-api.herokuapp.com/">here</a>) </h4>
+        <div class="container-fluid">
+            <h3>GET endpoints:</h3>
+            <ul>
+                <li class="bg-dark">
+                    <h4 style="font-weight: bold;">Get by ID</h4>
+                    <p><code>/burgers/{id}</code> Where {id} is an integer, representing the ID of the burger.</p>
+                    <p>Returns a single burger, like:</p>
+                    <p><code>{"name": "LimeBurger1", "image_url":"https://limeburger-api.herokuapp.com/images/limeburger.jpg", "id":5}</code></p>
+                </li>
+
+                <li class="bg-dark">
+                    <h4 style="font-weight: bold;">Get with queries</h4>
+                    <p><code>/burgers?burger_name={name}&pageNum={pageN}&perPage={perPageN}</code>
+                    Where burger_name is the burger name(or like it), pageNum and perPage are integers</p>
+                    <p>Returns a list of burgers, like:</p>
+                    <p><code>[
+                        {
+                        "id": 22,
+                        "name": "LimeBurger1",
+                        "imageUrl": "https://limeburger-api.herokuapp.com/images/limeburger.jpg",
+                        "ingredients": "cheese, pickles, pork kyufte, bread, lime, avocado"
+                        },
+                        {
+                        "id": 23,
+                        "name": "LimeBurger2",
+                        "imageUrl": "https://limeburger-api.herokuapp.com/images/limeburger.jpg",
+                        "ingredients": "cheese, pickles, pork kyufte, bread, lime, avocado"
+                        },
+                        {
+                        "id": 24,
+                        "name": "LimeBurger3",
+                        "imageUrl": "https://limeburger-api.herokuapp.com/images/limeburger.jpg",
+                        "ingredients": "cheese, pickles, pork kyufte, bread, lime, avocado"
+                        },
+                        {
+                        "id": 25,
+                        "name": "LimeBurger4",
+                        "imageUrl": "https://limeburger-api.herokuapp.com/images/limeburger.jpg",
+                        "ingredients": "cheese, pickles, pork kyufte, bread, lime, avocado"
+                        },
+                        {
+                        "id": 26,
+                        "name": "LimeBurger5",
+                        "imageUrl": "https://limeburger-api.herokuapp.com/images/limeburger.jpg",
+                        "ingredients": "cheese, pickles, pork kyufte, bread, lime, avocado"
+                        },
+                        {
+                        "id": 27,
+                        "name": "LimeBurger6",
+                        "imageUrl": "https://limeburger-api.herokuapp.com/images/limeburger.jpg",
+                        "ingredients": "cheese, pickles, pork kyufte, bread, lime, avocado"
+                        },
+                        {
+                        "id": 28,
+                        "name": "LimeBurger7",
+                        "imageUrl": "https://limeburger-api.herokuapp.com/images/limeburger.jpg",
+                        "ingredients": "cheese, pickles, pork kyufte, bread, lime, avocado"
+                        },
+                        {
+                        "id": 29,
+                        "name": "LimeBurger8",
+                        "imageUrl": "https://limeburger-api.herokuapp.com/images/limeburger.jpg",
+                        "ingredients": "cheese, pickles, pork kyufte, bread, lime, avocado"
+                        },
+                        {
+                        "id": 30,
+                        "name": "LimeBurger9",
+                        "imageUrl": "https://limeburger-api.herokuapp.com/images/limeburger.jpg",
+                        "ingredients": "cheese, pickles, pork kyufte, bread, lime, avocado"
+                        },
+                        {
+                        "id": 31,
+                        "name": "LimeBurger10",
+                        "imageUrl": "https://limeburger-api.herokuapp.com/images/limeburger.jpg",
+                        "ingredients": "cheese, pickles, pork kyufte, bread, lime, avocado"
+                        }
+                        ]</code></p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="container-fluid">
+            <h3>POST endpoints:</h3>
+            <ul>
+                <li>
+                    <h4 style="font-weight: bold">Create burger</h4>
+                    <p><code>/burger</code></p>
+                    <p>Accepts burgers, like:</p>
+                    <p><code>{"name": "LimeBurger1", "image_url":"https://limeburger-api.herokuapp.com/images/limeburger.jpg"}</code></p>
+                    <p>Returns the created burger, like:</p>
+                    <p><code>{"name": "LimeBurger1", "image_url":"https://limeburger-api.herokuapp.com/images/limeburger.jpg", "id":5}</code></p>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="container-fluid">
+        <h2>Pagination</h2>
+        <p>Pagination is implemented via offset/limit SQL queries.</p>
+        <p>The default pageNumber is 1, and the items on the page (perPage param) are 15.</p>
+    </div>
+
+    <div class="container-fluid">
+        <h2>Request query parameters:</h2>
+        <p><code>burger_name</code> - a string, which is contained in the desired burger's name.</p>
+        <p><code>perPage</code> - an integer, denoting how many items you want to see per page.</p>
+        <p><code>pageNum</code>- an integer, representing the page you want to see.</p>
+    </div>
+
+</div>
 </body>
 </html>

@@ -60,7 +60,7 @@ func (app *Application) InitRoutes() {
 
 	// query stuff
 	app.router.HandleFunc("/burgers", func(writer http.ResponseWriter, request *http.Request) {
-		burgerName := request.URL.Query().Get("name")
+		burgerName := request.URL.Query().Get("burger_name")
 		countBurgers := app.repository.Count()
 		lst := pagination.GetPaginatedListFromRequest(request, countBurgers)
 		// handle missing burger name
