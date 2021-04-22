@@ -36,7 +36,7 @@ func TestGetById(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	assert.Equal(t, found.ID, 1, "Wtf, they should be the same")
+	assert.Equal(t, found.ID, 1, "Wtf, it must be present")
 }
 
 func TestCreateOne(t *testing.T) {
@@ -70,14 +70,14 @@ func TestGetPaginated(t *testing.T) {
 	}
 
 	paginated, err := BurgerRepository.GetPaginated(repo, 1, 1)
-	if err != nil{
+	if err != nil {
 		panic(err)
 	}
 
 	assert.Equal(t, 1, len(paginated))
 
-	paginated2, err := BurgerRepository.GetPaginated(repo, 1, 2)
-	if err != nil{
+	paginated2, err := BurgerRepository.GetPaginated(repo, 1, 2) //nolint:typechecking
+	if err != nil {
 		panic(err)
 	}
 

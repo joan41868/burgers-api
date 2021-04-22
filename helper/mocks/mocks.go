@@ -2,6 +2,7 @@ package mocks
 
 import (
 	"burger-api/domain/model"
+	"burger-api/domain/pagination"
 	"errors"
 	"log"
 	"strings"
@@ -38,31 +39,27 @@ func (repo *BurgerRepository) GetByName(name string) ([]*model.Burger, error) {
 	}
 	var slc []*model.Burger
 	for _, v := range repo.Burgers {
-		if strings.Contains(v.Name, name){
+		if strings.Contains(v.Name, name) {
 			slc = append(slc, v)
 		}
 	}
 	return slc, nil
 }
 
-func (repo *BurgerRepository) GetPaginated(pageNum, perPage uint) ([]*model.Burger, error){
-	type paginator struct {
-		Limit uint // PerPage
-		Offset uint
-		PageNum uint
-	}
-	pgn := paginator{
+func (repo *BurgerRepository) GetPaginated(pageNum, perPage uint) ([]*model.Burger, error) {
+
+	pgn := pagination.Paginator{
 		Limit:   perPage,
-		Offset:  (pageNum-1)*perPage, // Offset 1 will start from the second row, this is why i did this hack
-		PageNum: pageNum-1,
+		Offset:  (pageNum - 1) * perPage, // Offset 1 will start from the second row, this is why i did this hack
+		PageNum: pageNum - 1,
 	}
 	burgersLen := uint(len(repo.Burgers))
-	mp := make(map[uint] []*model.Burger)
+	mp := make(map[uint][]*model.Burger)
 	var cnt uint = 1 // actual page number
 	for {
 		burgersLen = burgersLen - perPage
 		mp[cnt] = repo.Burgers[pgn.Offset:pgn.Limit]
-		if burgersLen <= 0{
+		if burgersLen <= 0 {
 			break
 		}
 		cnt = cnt + 1
@@ -71,35 +68,31 @@ func (repo *BurgerRepository) GetPaginated(pageNum, perPage uint) ([]*model.Burg
 	return mp[pageNum], nil
 }
 
-func (repo *BurgerRepository) Count() int{
+func (repo *BurgerRepository) Count() int {
 	return len(repo.Burgers)
 }
 
-func (repo *BurgerRepository) GetPaginatedByName(name string, pageNum, perPage uint) ([]*model.Burger, error){
-	type paginator struct {
-		Limit uint // PerPage
-		Offset uint
-		PageNum uint
-	}
-	pgn := paginator{
+func (repo *BurgerRepository) GetPaginatedByName(name string, pageNum, perPage uint) ([]*model.Burger, error) {
+
+	pgn := pagination.Paginator{
 		Limit:   perPage,
-		Offset:  (pageNum-1)*perPage, // Offset 1 will start from the second row, this is why i did this hack
-		PageNum: pageNum-1,
+		Offset:  (pageNum - 1) * perPage, // Offset 1 will start from the second row, this is why i did this hack
+		PageNum: pageNum - 1,
 	}
 	burgersLen := uint(len(repo.Burgers))
-	mp := make(map[uint] []*model.Burger)
+	mp := make(map[uint][]*model.Burger)
 	var cnt uint = 1 // actual page number
 	for {
 		burgersLen = burgersLen - perPage
 		mp[cnt] = repo.Burgers[pgn.Offset:pgn.Limit]
-		if burgersLen <= 0{
+		if burgersLen <= 0 {
 			break
 		}
 		cnt = cnt + 1
 	}
 	var slc []*model.Burger
-	for _, v := range mp[pageNum]{
-		if strings.Contains(v.Name, name){
+	for _, v := range mp[pageNum] {
+		if strings.Contains(v.Name, name) {
 			slc = append(slc, v)
 		}
 	}

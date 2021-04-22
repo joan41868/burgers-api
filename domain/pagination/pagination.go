@@ -8,6 +8,14 @@ type PaginatedList struct {
 	Items      interface{} `json:"items"`
 }
 
+//Paginator -  helper struct, which holds part of the PaginatedList data
+type Paginator struct {
+	Limit   uint // PerPage
+	Offset  uint
+	PageNum uint
+}
+
+// NewPaginatedList creates a new PaginatedList
 func NewPaginatedList(page, perPage, total int) *PaginatedList {
 	if perPage < 1 {
 		perPage = 100
@@ -31,12 +39,12 @@ func NewPaginatedList(page, perPage, total int) *PaginatedList {
 	}
 }
 
-// Offset returns the OFFSET value that can be used in a SQL statement.
+// Offset - offset to be used in sql statement
 func (p *PaginatedList) Offset() int {
 	return (p.Page - 1) * p.PerPage
 }
 
-// Limit returns the LIMIT value that can be used in a SQL statement.
+// Limit - limit to be used in SQL statement
 func (p *PaginatedList) Limit() int {
 	return p.PerPage
 }
