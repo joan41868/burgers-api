@@ -13,8 +13,8 @@ import (
 )
 
 type Application struct {
-	Router     *mux.Router
-	Repository repository.BurgerRepository
+	router     *mux.Router
+	repository repository.BurgerRepository
 }
 
 func NewApplication(connStr string) *Application {
@@ -23,8 +23,8 @@ func NewApplication(connStr string) *Application {
 		log.Fatal(err)
 	}
 	app := Application{
-		Router:     mux.NewRouter(),
-		Repository: repo,
+		router:     mux.NewRouter(),
+		repository: repo,
 	}
 	return &app
 }
@@ -44,10 +44,14 @@ func (app *Application) Start(port string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	// routes
 	app.InitRoutes()
-	app.Router.Use(ratelimit.Handle)
-	app.Router.Use(middleware.ContentTypeMiddleware)
-	app.Router.Use(middleware.CorsMiddleware)
+	app.router.PathPrefix("/").Handler(http.FileServer(http.Dir("domain/static/")))
+	// middlewares
+	app.router.Use(ratelimit.Handle)
+	app.router.Use(middleware.ContentTypeMiddleware) // attaches a Content-type : application/json header
+	app.router.Use(middleware.CorsMiddleware)
+
 	log.Printf("Listening on port %s", port)
-	log.Fatal(http.ListenAndServe(":"+port, app.Router))
+	log.Fatal(http.ListenAndServe(":"+port, app.router))
 }

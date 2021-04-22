@@ -14,7 +14,7 @@ func CorsMiddleware(next http.Handler) http.Handler {
 		// I hope this is ok?
 		w.Header().Add("Access-Control-Allow-Origin", reqOrigin) // <- this instead of *
 		w.Header().Add("Access-Control-Allow-Methods", "*")
-		w.Header().Add("Access-Control-Allow-Headers", "Content-type")
+		w.Header().Add("Access-Control-Allow-Headers", "*")
 		w.Header().Add("Access-Control-Allow-Credentials", "true")
 		next.ServeHTTP(w, r)
 	})

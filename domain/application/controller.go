@@ -17,18 +17,18 @@ func handleHttpErr(err error, writer http.ResponseWriter){
 
 func (app *Application) InitRoutes() {
 
-	app.Router.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
+	app.router.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		writer.Write([]byte("Hello"))
 	})
 
-	app.Router.HandleFunc("/burger", func(writer http.ResponseWriter, request *http.Request) {
+	app.router.HandleFunc("/burger", func(writer http.ResponseWriter, request *http.Request) {
 		var burger model.Burger
 		err := json.NewDecoder(request.Body).Decode(&burger)
 		if err != nil{
 			handleHttpErr(err, writer)
 		}else {
 			var saved *model.Burger
-			saved, err = app.Repository.CreateOne(&burger)
+			saved, err = app.repository.CreateOne(&burger)
 			if err != nil {
 				handleHttpErr(err, writer)
 			}
@@ -36,9 +36,9 @@ func (app *Application) InitRoutes() {
 		}
 	}).Methods("POST")
 
-	app.Router.HandleFunc("/burger/name/{name}", func(writer http.ResponseWriter, request *http.Request) {
+	app.router.HandleFunc("/burger/name/{name}", func(writer http.ResponseWriter, request *http.Request) {
 		name := mux.Vars(request)["name"]
-		found, err := app.Repository.GetByName(name)
+		found, err := app.repository.GetByName(name)
 		if err != nil{
 			handleHttpErr(err, writer)
 		}else{
@@ -46,13 +46,13 @@ func (app *Application) InitRoutes() {
 		}
 	}).Methods("GET")
 
-	app.Router.HandleFunc("/burger/id/{id}", func(writer http.ResponseWriter, request *http.Request) {
+	app.router.HandleFunc("/burger/id/{id}", func(writer http.ResponseWriter, request *http.Request) {
 		idAsStr := mux.Vars(request)["id"]
 		id, err := strconv.Atoi(idAsStr)
 		if err != nil{
 			handleHttpErr(err, writer)
 		}else{
-			found, err := app.Repository.GetByID(id)
+			found, err := app.repository.GetByID(id)
 			if err != nil{
 				handleHttpErr(err, writer)
 			}else{
@@ -63,7 +63,7 @@ func (app *Application) InitRoutes() {
 	}).Methods("GET")
 
 
-	app.Router.HandleFunc("/burgers/pageNum/{pageNum}/perPage/{perPage}", func(writer http.ResponseWriter, request *http.Request) {
+	app.router.HandleFunc("/burgers/pageNum/{pageNum}/perPage/{perPage}", func(writer http.ResponseWriter, request *http.Request) {
 		pageAsStr := mux.Vars(request)["pageNum"]
 		pageNum, err := strconv.Atoi(pageAsStr)
 		if err != nil{
@@ -76,7 +76,7 @@ func (app *Application) InitRoutes() {
 			handleHttpErr(err, writer)
 		}
 
-		burgers, err := app.Repository.GetPaginated(uint(pageNum), uint(perPage))
+		burgers, err := app.repository.GetPaginated(uint(pageNum), uint(perPage))
 		if err != nil{
 			handleHttpErr(err, writer)
 		}
